@@ -1,0 +1,3 @@
+category_payload
+"{""code"": ""CAT-${__UUID}"", ""name"": ""Category JMeter ${__RandomString(10,ABCDEFGHIJ,)}""}"
+"{""code"": ""CAT-${__UUID}"", ""name"": ""Category JMeter ${__RandomString(10,KLMNOPQRST,)}""}"

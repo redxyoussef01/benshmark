@@ -1,0 +1,3 @@
+item_payload_1k
+"{""name"": ""Item JMeter ${__RandomString(12,ABCDEF,)}"", ""sku"": ""SKU-${__UUID}"", ""price"": ${__Random(10,500,)}.99, ""stock"": ${__Random(1,100,)}, ""category_id"": ${__Random(1,2000,)}}"
+"{""name"": ""Item JMeter ${__RandomString(12,GHIJKL,)}"", ""sku"": ""SKU-${__UUID}"", ""price"": ${__Random(10,500,)}.99, ""stock"": ${__Random(1,100,)}, ""category_id"": ${__Random(1,2000,)}}"
