@@ -3,18 +3,33 @@ package ma.ws.jaxrs.benchmarkAa.controllers;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired; // <-- IMPORT THIS
+import org.springframework.stereotype.Component;
+
 import ma.ws.jaxrs.benchmarkAa.entities.Item;
 import ma.ws.jaxrs.benchmarkAa.entities.Category;
 import ma.ws.jaxrs.benchmarkAa.dao.ItemDAO;
 import ma.ws.jaxrs.benchmarkAa.dao.CategoryDAO;
 
+@Component
 @Path("/items")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ItemController {
 
-    private final ItemDAO itemDAO = new ItemDAO();
-    private final CategoryDAO categoryDAO = new CategoryDAO();
+    // 1. DO NOT use new() here
+    private final ItemDAO itemDAO;
+    private final CategoryDAO categoryDAO;
+
+    // 2. Add this constructor to let Spring inject BOTH DAOs
+    @Autowired
+    public ItemController(ItemDAO itemDAO, CategoryDAO categoryDAO) {
+        this.itemDAO = itemDAO;
+        this.categoryDAO = categoryDAO;
+    }
+
+    // --- All other methods are now correct ---
 
     @GET
     public List<Item> getAllItems(@QueryParam("categoryId") Long categoryId) {

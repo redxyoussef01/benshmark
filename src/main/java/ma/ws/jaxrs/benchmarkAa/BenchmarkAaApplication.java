@@ -1,12 +1,11 @@
 package ma.ws.jaxrs.benchmarkAa;
 
-import org.glassfish.jersey.server.ResourceConfig;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import jakarta.ws.rs.ApplicationPath;
-
-@ApplicationPath("/api")
-public class BenchmarkAaApplication extends ResourceConfig {
-    public BenchmarkAaApplication() {
-        packages("ma.ws.jaxrs.benchmarkAa.controllers");
+@SpringBootApplication
+public class BenchmarkAaApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(BenchmarkAaApplication.class, args);
     }
 }

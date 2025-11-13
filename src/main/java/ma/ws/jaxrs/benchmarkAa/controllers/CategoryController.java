@@ -6,11 +6,25 @@ import ma.ws.jaxrs.benchmarkAa.entities.Category;
 import ma.ws.jaxrs.benchmarkAa.dao.CategoryDAO;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired; // <-- IMPORT THIS
+import org.springframework.stereotype.Component;
+
+@Component
 @Path("/categories")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CategoryController {
-    private final CategoryDAO categoryDAO = new CategoryDAO();
+
+    // 1. DO NOT use new() here
+    private final CategoryDAO categoryDAO;
+
+    // 2. Add this constructor to let Spring inject the DAO
+    @Autowired
+    public CategoryController(CategoryDAO categoryDAO) {
+        this.categoryDAO = categoryDAO;
+    }
+
+    // --- All other methods are now correct ---
 
     @GET
     public List<Category> getAll() { return categoryDAO.findAll(); }
