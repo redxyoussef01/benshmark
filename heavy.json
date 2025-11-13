@@ -1,0 +1,229 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "JVM Metrics for REST Benchmark Variants (Table T3)",
+  "panels": [
+    {
+      "datasource": "Prometheus-Benchmark",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "mappings": [],
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "show": true
+        }
+      },
+      "targets": [
+        {
+          "expr": "avg(rate(process_cpu_seconds_total{job=\"java-app-benchmark\", instance=~\"$Instance\"}[1m])) by (instance) * 100",
+          "legendFormat": "CPU Usage - {{instance}} (Moyenne)",
+          "refId": "A"
+        },
+        {
+          "expr": "max_over_time(rate(process_cpu_seconds_total{job=\"java-app-benchmark\", instance=~\"$Instance\"}[1m])[$__range:]) * 100",
+          "legendFormat": "CPU Usage - {{instance}} (Peak)",
+          "refId": "B"
+        }
+      ],
+      "title": "CPU Processor (%) (moy/pic)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus-Benchmark",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "mappings": [],
+          "unit": "megabytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "show": true
+        }
+      },
+      "targets": [
+        {
+          "expr": "avg_over_time(jvm_memory_used_bytes{area=\"heap\", job=\"java-app-benchmark\", instance=~\"$Instance\"}[$__range:]) / 1024 / 1024",
+          "legendFormat": "Heap Used - {{instance}} (Moyenne)",
+          "refId": "A"
+        },
+        {
+          "expr": "max_over_time(jvm_memory_used_bytes{area=\"heap\", job=\"java-app-benchmark\", instance=~\"$Instance\"}[$__range:]) / 1024 / 1024",
+          "legendFormat": "Heap Used - {{instance}} (Peak)",
+          "refId": "B"
+        }
+      ],
+      "title": "Heap (Mo) (moy/pic)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus-Benchmark",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "mappings": [],
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "show": true
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(jvm_gc_collection_seconds_sum{job=\"java-app-benchmark\", instance=~\"$Instance\"}[5m]) * 1000",
+          "legendFormat": "GC Time - {{instance}} (ms/s)",
+          "refId": "A"
+        }
+      ],
+      "title": "GC time (ms/s) (moy/pic)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus-Benchmark",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "mappings": [],
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "show": true
+        }
+      },
+      "targets": [
+        {
+          "expr": "avg_over_time(jvm_threads_current{job=\"java-app-benchmark\", instance=~\"$Instance\"}[$__range:])",
+          "legendFormat": "Threads Active - {{instance}} (Moyenne)",
+          "refId": "A"
+        },
+        {
+          "expr": "max_over_time(jvm_threads_current{job=\"java-app-benchmark\", instance=~\"$Instance\"}[$__range:])",
+          "legendFormat": "Threads Active - {{instance}} (Peak)",
+          "refId": "B"
+        }
+      ],
+      "title": "Threads actifs (moy/pic)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus-Benchmark",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "mappings": [],
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "show": true
+        }
+      },
+      "targets": [
+        {
+          "expr": "hikaricp_connections_active{job=\"java-app-benchmark\", instance=~\"$Instance\"}",
+          "legendFormat": "Hikari Active - {{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Hikari (actifs)",
+      "type": "timeseries"
+    }
+  ],
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "jvm",
+    "prometheus",
+    "benchmark"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "A|C|D",
+          "value": [
+            "A",
+            "C",
+            "D"
+          ]
+        },
+        "datasource": "Prometheus-Benchmark",
+        "name": "Instance",
+        "options": [],
+        "query": "label_values(up{job=\"java-app-benchmark\"}, instance)",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "title": "JVM Resources - Table T3",
+  "uid": "jvm_resources_t3",
+  "version": 1
+}
